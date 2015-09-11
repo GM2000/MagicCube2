@@ -31,7 +31,7 @@ typedef struct
 } shaderInfo;
 
 //glfw windows
-extern		GLFWwindow	*window;
+extern		GLFWwindow	*Window;
 //all of the shader are save in *shader
 extern		GLuint		*shader;
 //Sader Uniform Location
@@ -41,11 +41,16 @@ extern		GLuint		ShaderUniformLocation[3];
 wchar_t*	A2U(const char* in);
 
 //init the program
-GLuint		init		(int argc, char **argv);
+GLuint		Init		(int argc, char **argv);
 //load PNG
 GLuint		LoadPNG		(char *filepath, pic_data *out);
 //load a shader
 GLuint		LoadShaders	(shaderInfo*);
+
+//Windows Size
+extern	int WindowsHeight;
+extern	int WindowsWidth;
+
 
 //render game
 void RenderGame();

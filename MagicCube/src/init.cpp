@@ -1,6 +1,7 @@
 #include "MagicCube.h"
 
 void KeyBoardCallBack(GLFWwindow* window, int key, int scancode, int action, int mods);
+void WindowsSizeCallBack(GLFWwindow* window, int width, int height);
 
 //load all shader
 void LoadShaders()
@@ -20,7 +21,7 @@ void LoadShaders()
 	ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE]=glGetUniformLocation(shader[0], "Rotate");
 }
 
-GLuint init(int argc, char **argv)
+GLuint Init(int argc, char **argv)
 {
 	setlocale(LC_ALL, "chs");
 
@@ -29,8 +30,8 @@ GLuint init(int argc, char **argv)
 		return false;
 
 	//create windows
-	window = glfwCreateWindow(640, 480, argv[0], NULL, NULL);
-	if (!window)//is create windows?
+	Window = glfwCreateWindow(640, 480, argv[0], NULL, NULL);
+	if (!Window)//is create windows?
 	{
 		//exit
 		glfwTerminate();
@@ -38,7 +39,7 @@ GLuint init(int argc, char **argv)
 	}
 	
 	//set opengl version
-	glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent(Window);
 
 	//init glew
 	int glewInitIsOk = glewInit();
@@ -50,7 +51,8 @@ GLuint init(int argc, char **argv)
 	LoadShaders();
 
 
-	glfwSetKeyCallback(window, KeyBoardListener);
+	glfwSetKeyCallback			(Window, KeyBoardCallBack);
+	glfwSetWindowSizeCallback	(Window, WindowsSizeCallBack);
 
 	return true;
 }

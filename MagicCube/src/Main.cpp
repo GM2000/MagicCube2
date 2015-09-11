@@ -1,13 +1,17 @@
 #include "MagicCube.h"
 #include "Location.h"
 
-GLFWwindow	*window;
+GLFWwindow	*Window;
+
 GLuint		*shader;
 GLuint		ShaderUniformLocation[3];
 
+int WindowsHeight;
+int WindowsWidth;
+
 int main(int argc,char **argv)
 {
-	int initState = init(argc, argv);
+	int initState = Init(argc, argv);
 
 	if (!initState)
 		return initState;
@@ -28,17 +32,17 @@ int main(int argc,char **argv)
 	free(test);
 
 	loc teste;
-	teste.X = -0.1;
-	teste.Y = -0.1;
+	teste.X = -0.1f;
+	teste.Y = -0.1f;
 
 	teste.GetChunkX();
 	
 	
 	glUseProgram(shader[0]);
 
-	while (!glfwWindowShouldClose(window))
+	while (!glfwWindowShouldClose(Window))
 	{
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(Window);
 
 		RenderGame();
 
