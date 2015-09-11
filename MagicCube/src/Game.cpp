@@ -15,7 +15,7 @@ GLfloat rot;
 
 void RenderGame()
 {
-	if (!ScreenInit)
+	if (!ScreenInit) 
 	{
 		static const GLfloat quad_data[] =
 		{
