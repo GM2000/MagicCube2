@@ -1,4 +1,5 @@
 #include "MagicCube.h"
+#include "Location.h"
 
 GLFWwindow	*window;
 GLuint		*shader;
@@ -26,6 +27,13 @@ int main(int argc,char **argv)
 
 	free(test);
 
+	loc teste;
+	teste.X = -0.1;
+	teste.Y = -0.1;
+
+	teste.GetChunkX();
+	
+	
 	glUseProgram(shader[0]);
 
 	while (!glfwWindowShouldClose(window))

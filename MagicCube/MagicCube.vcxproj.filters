@@ -38,5 +38,11 @@
     <ClInclude Include="src\MagicCube.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mob.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Location.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

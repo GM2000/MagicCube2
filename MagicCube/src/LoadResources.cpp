@@ -139,13 +139,13 @@ static const GLchar* ReadShader(const char* filename)
 
 	return const_cast<const GLchar*>(source);
 }
-GLuint LoadShaders(ShaderInfo* shaders)
+GLuint LoadShaders(shaderInfo* shaders)
 {
 	if (shaders == NULL) { return 0; }
 
 	GLuint program = glCreateProgram();
 
-	ShaderInfo* entry = shaders;
+	shaderInfo* entry = shaders;
 	while (entry->type != GL_NONE)
 	{
 		GLuint shader = glCreateShader(entry->type);

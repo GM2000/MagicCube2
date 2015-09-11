@@ -1,6 +1,6 @@
 #include "MagicCube.h"
 
-void KeyBoardListener(GLFWwindow* window, int key, int scancode, int action, int mods);
+void KeyBoardCallBack(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 //load all shader
 void LoadShaders()
@@ -8,7 +8,7 @@ void LoadShaders()
 	//load 2D shader
 	shader = new GLuint[1];
 
-	ShaderInfo  shaders[] = {
+	shaderInfo  shaders[] = {
 		{ GL_VERTEX_SHADER, "Normail3D.vert" },
 		{ GL_FRAGMENT_SHADER, "Normail3D.frag" },
 		{ GL_NONE, NULL } };

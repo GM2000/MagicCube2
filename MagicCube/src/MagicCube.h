@@ -1,3 +1,4 @@
+#pragma once
 
 #define NORMAL_3D_SHADER_FRUSTUM   0
 #define NORMAL_3D_SHADER_ROTATE    1
@@ -27,7 +28,7 @@ typedef struct
 	GLenum       type;
 	const char*  filename;
 	GLuint       shader;
-} ShaderInfo;
+} shaderInfo;
 
 //glfw windows
 extern		GLFWwindow	*window;
@@ -44,7 +45,7 @@ GLuint		init		(int argc, char **argv);
 //load PNG
 GLuint		LoadPNG		(char *filepath, pic_data *out);
 //load a shader
-GLuint		LoadShaders	(ShaderInfo*);
+GLuint		LoadShaders	(shaderInfo*);
 
 //render game
 void RenderGame();
