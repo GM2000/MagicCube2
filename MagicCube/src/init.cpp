@@ -1,5 +1,7 @@
 #include "MagicCube.h"
 
+void KeyBoardListener(GLFWwindow* window, int key, int scancode, int action, int mods);
+
 //load all shader
 void LoadShaders()
 {
@@ -46,6 +48,9 @@ GLuint init(int argc, char **argv)
 	
 	//load all shaders
 	LoadShaders();
+
+
+	glfwSetKeyCallback(window, KeyBoardListener);
 
 	return true;
 }
