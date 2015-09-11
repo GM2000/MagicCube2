@@ -19,14 +19,14 @@ void RenderGame()
 	{
 		static const GLfloat quad_data[] =
 		{
-			-0.9f,-0.9f,-2.0f,
-			0.9f,-0.9f,-2.0f,
-			0.9f,0.9f,-2.0f,
-			-0.9f,0.9f,-2.0f,
-			1.0,1.0,
+			-0.9f,-0.9f,-1.0f,
+			0.9f,-0.9f,-1.0f,
+			0.9f,0.9f,-1.0f,
+			-0.9f,0.9f,-1.0f,
 			0.0,1.0,
-			0.0,0.0,
-			1.0,0.0
+			1.0,1.0,
+			1.0,0.0,
+			0.0,0.0
 		};
 
 		glGenVertexArrays(1, &ScreenVao);
@@ -47,13 +47,13 @@ void RenderGame()
 	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	X += 0.001f;
-	Y += 0.001f;
-	Z += 0.001f;
+	//X += 0.001f;
+	//Y += 0.001f;
+	//Z += 0.001f;
 
 	rot += 1.0f;
 	
-	vmath::Tmat4<GLfloat> PlayerFrustum(vmath::frustum(1.0, -1.0, -1.0, 1.0, 0.1, 500));
+	vmath::Tmat4<GLfloat> PlayerFrustum(vmath::frustum(-(GLfloat)WindowsWidth / (GLfloat)WindowsHeight, (GLfloat)WindowsWidth / (GLfloat)WindowsHeight, -1.0, 1.0, 0.1, 500));
 	vmath::Tmat4<GLfloat> PlayerRotate(vmath::rotate<GLfloat>(rot, 0.0f, 0.0f, 1.0f));
 	vmath::Tmat4<GLfloat> PlayerTranslate(vmath::translate<GLfloat>(X, Y, Z));
 

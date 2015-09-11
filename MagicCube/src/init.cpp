@@ -30,7 +30,11 @@ GLuint Init(int argc, char **argv)
 		return false;
 
 	//create windows
-	Window = glfwCreateWindow(640, 480, argv[0], NULL, NULL);
+	Window = glfwCreateWindow(870, 512, argv[0], NULL, NULL);
+
+	WindowsHeight = 512;
+	WindowsWidth = 870;
+
 	if (!Window)//is create windows?
 	{
 		//exit
