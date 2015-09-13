@@ -39,8 +39,11 @@ GLuint Init(int argc, char **argv)
 		return false;
 	}
 
-	//set the view port
+	//init the view port
 	glViewport(435, 256, 870, 512);
+
+	//call WondowsResizeCallBack to change the view port
+	WindowsSizeCallBack(Window, 870, 512);
 
 	//set opengl version
 	glfwMakeContextCurrent(Window);

@@ -53,7 +53,7 @@ void RenderGame()
 
 	//rot += 1.0f;
 	
- 	vmath::Tmat4<GLfloat> PlayerFrustum(vmath::frustum(-1.0f, 1.0f, -1.0f, 1.0f, 0.1, 500));
+	vmath::Tmat4<GLfloat> PlayerFrustum(vmath::frustum(-(GLfloat)WindowsWidth*2.5f / (GLfloat)WindowsHeight, (GLfloat)WindowsWidth*2.5f / (GLfloat)WindowsHeight, -2.5f, 2.5f, 0.1, 500));
 	vmath::Tmat4<GLfloat> PlayerRotate(vmath::rotate<GLfloat>(rot, 0.0f, 1.0f, 0.0f));
 	vmath::Tmat4<GLfloat> PlayerTranslate(vmath::translate<GLfloat>(X, Y, Z));
 
