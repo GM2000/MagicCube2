@@ -1,8 +1,8 @@
 #pragma once
 
-#define NORMAL_3D_SHADER_FRUSTUM   0
-#define NORMAL_3D_SHADER_ROTATE    1
-#define NORMAL_3D_SHADER_TRANSLATE 2
+#define NORMAL_3D_SHADER_FRUSTUM	0
+#define NORMAL_3D_SHADER_ROTATE		1
+#define NORMAL_3D_SHADER_TRANSLATE	2
 
 #include <gl/glew.h>
 #include <glfw/glfw3.h>

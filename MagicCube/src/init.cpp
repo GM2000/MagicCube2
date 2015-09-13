@@ -18,7 +18,7 @@ void LoadShaders()
 
 	ShaderUniformLocation[NORMAL_3D_SHADER_FRUSTUM] = glGetUniformLocation(shader[0], "Frustum");
 	ShaderUniformLocation[NORMAL_3D_SHADER_TRANSLATE] = glGetUniformLocation(shader[0], "Translate");
-	ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE]=glGetUniformLocation(shader[0], "Rotate");
+	ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE] = glGetUniformLocation(shader[0], "Rotate");
 }
 
 GLuint Init(int argc, char **argv)
@@ -31,17 +31,17 @@ GLuint Init(int argc, char **argv)
 
 	//create windows
 	Window = glfwCreateWindow(870, 512, argv[0], NULL, NULL);
-
-	WindowsHeight = 512;
-	WindowsWidth = 870;
-
+	
 	if (!Window)//is create windows?
 	{
 		//exit
 		glfwTerminate();
 		return false;
 	}
-	
+
+	//set the view port
+	glViewport(435, 256, 870, 512);
+
 	//set opengl version
 	glfwMakeContextCurrent(Window);
 

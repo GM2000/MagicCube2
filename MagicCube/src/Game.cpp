@@ -19,10 +19,10 @@ void RenderGame()
 	{
 		static const GLfloat quad_data[] =
 		{
-			-0.9f,-0.9f,-1.0f,
-			0.9f,-0.9f,-1.0f,
-			0.9f,0.9f,-1.0f,
-			-0.9f,0.9f,-1.0f,
+			-1.0f,-1.0f,-1.0f,
+			1.0f,-1.0f,-1.0f,
+			1.0f,1.0f,-1.0f,
+			-1.0f,1.0f,-1.0f,
 			0.0,1.0,
 			1.0,1.0,
 			1.0,0.0,
@@ -47,17 +47,17 @@ void RenderGame()
 	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	//X += 0.001f;
+	//X += 0.005f;
 	//Y += 0.001f;
-	//Z += 0.001f;
+	//Z -= 0.01f;
 
-	rot += 1.0f;
+	//rot += 1.0f;
 	
-	vmath::Tmat4<GLfloat> PlayerFrustum(vmath::frustum(-(GLfloat)WindowsWidth / (GLfloat)WindowsHeight, (GLfloat)WindowsWidth / (GLfloat)WindowsHeight, -1.0, 1.0, 0.1, 500));
-	vmath::Tmat4<GLfloat> PlayerRotate(vmath::rotate<GLfloat>(rot, 0.0f, 0.0f, 1.0f));
+ 	vmath::Tmat4<GLfloat> PlayerFrustum(vmath::frustum(-1.0f, 1.0f, -1.0f, 1.0f, 0.1, 500));
+	vmath::Tmat4<GLfloat> PlayerRotate(vmath::rotate<GLfloat>(rot, 0.0f, 1.0f, 0.0f));
 	vmath::Tmat4<GLfloat> PlayerTranslate(vmath::translate<GLfloat>(X, Y, Z));
 
-	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_FRUSTUM], 1, GL_TRUE, PlayerFrustum);
+	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_FRUSTUM], 1, GL_FALSE, PlayerFrustum);
 	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE], 1, GL_FALSE, PlayerRotate);
 	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_TRANSLATE], 1, GL_TRUE, PlayerTranslate);
 	
