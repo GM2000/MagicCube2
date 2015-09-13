@@ -1,11 +1,19 @@
 
 #include "MagicCube.h"
-#include <vmath.h>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 bool ScreenInit = false;
 
 GLuint ScreenVao;
 GLuint Buffers;
+
+GLfloat XM=0;
+GLfloat YM=0;
+GLfloat ZM=0;
 
 GLfloat X;
 GLfloat Y;
@@ -19,10 +27,10 @@ void RenderGame()
 	{
 		static const GLfloat quad_data[] =
 		{
-			-1.0f,-1.0f,-1.0f,
-			1.0f,-1.0f,-1.0f,
-			1.0f,1.0f,-1.0f,
-			-1.0f,1.0f,-1.0f,
+			-1.0f,-1.0f,-2.0f,
+			1.0f,-1.0f,-2.0f,
+			1.0f,1.0f,-2.0f,
+			-1.0f,1.0f,-2.0f,
 			0.0,1.0,
 			1.0,1.0,
 			1.0,0.0,
@@ -47,19 +55,20 @@ void RenderGame()
 	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	//X += 0.005f;
-	//Y += 0.001f;
-	//Z -= 0.01f;
+	X += XM;
+	Y += YM;
+	Z += ZM;
 
-	//rot += 1.0f;
-	
-	vmath::Tmat4<GLfloat> PlayerFrustum(vmath::frustum(-(GLfloat)WindowsWidth*2.5f / (GLfloat)WindowsHeight, (GLfloat)WindowsWidth*2.5f / (GLfloat)WindowsHeight, -2.5f, 2.5f, 0.1, 500));
-	vmath::Tmat4<GLfloat> PlayerRotate(vmath::rotate<GLfloat>(rot, 0.0f, 1.0f, 0.0f));
-	vmath::Tmat4<GLfloat> PlayerTranslate(vmath::translate<GLfloat>(X, Y, Z));
+	rot += 0.01f;
 
-	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_FRUSTUM], 1, GL_FALSE, PlayerFrustum);
-	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE], 1, GL_FALSE, PlayerRotate);
-	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_TRANSLATE], 1, GL_TRUE, PlayerTranslate);
+	glm::mat4 Projection = glm::perspective(45.0f, (GLfloat)WindowsWidth / (GLfloat)WindowsHeight, 0.1f, 100.0f);
+	glm::mat4 Translate = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, -5.0f));
+	glm::mat4 Rotate = glm::rotate_slow(glm::mat4(), rot,glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_FRUSTUM], 1, GL_TRUE, glm::value_ptr(Projection));
+	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE], 1, GL_FALSE, glm::value_ptr(Rotate));
+	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_TRANSLATE], 1, GL_TRUE, glm::value_ptr(Translate));
 	
 	glBindVertexArray(ScreenVao);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
