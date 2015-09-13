@@ -52,6 +52,9 @@ void RenderGame()
 		glEnableVertexAttribArray(1);
 
 		ScreenInit = true;
+
+		glm::mat4 Projection = glm::perspective(45.0f, (GLfloat)WindowsWidth / (GLfloat)WindowsHeight, 0.1f, 100.0f);
+		glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_FRUSTUM], 1, GL_TRUE, glm::value_ptr(Projection));
 	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -59,15 +62,12 @@ void RenderGame()
 	Y += YM;
 	Z += ZM;
 
-	rot += 0.01f;
+	rot += 0.05f;
 
-	glm::mat4 Projection = glm::perspective(45.0f, (GLfloat)WindowsWidth / (GLfloat)WindowsHeight, 0.1f, 100.0f);
-	glm::mat4 Translate = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, -5.0f));
+	glm::mat4 Translate = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, -0.0f));
 	glm::mat4 Rotate = glm::rotate_slow(glm::mat4(), rot,glm::vec3(0.0f, 1.0f, 0.0f));
 
-
-	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_FRUSTUM], 1, GL_TRUE, glm::value_ptr(Projection));
-	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE], 1, GL_FALSE, glm::value_ptr(Rotate));
+	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE], 1, GL_TRUE, glm::value_ptr(Rotate));
 	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_TRANSLATE], 1, GL_TRUE, glm::value_ptr(Translate));
 	
 	glBindVertexArray(ScreenVao);
