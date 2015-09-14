@@ -23,9 +23,15 @@ GLfloat rot;
 
 void RenderGame()
 {
+	int size = 500;
+
 	if (!ScreenInit) 
 	{
-		static const GLfloat quad_data[] =
+
+		GLfloat *quad_data = new GLfloat[20 * size];
+
+		/*
+		GLfloat quad_data2[20]=
 		{
 			-1.0f,-1.0f,-2.0f,
 			1.0f,-1.0f,-2.0f,
@@ -36,40 +42,72 @@ void RenderGame()
 			1.0,0.0,
 			0.0,0.0
 		};
+		*/
+
+		for (int i = 0; i < size; i++)
+		{
+			quad_data[i * 12 + 0] = -1.0f;
+			quad_data[i * 12 + 1] = -1.0f;
+			quad_data[i * 12 + 2] = -2.0f;
+			quad_data[i * 12 + 3] =  1.0f;
+			quad_data[i * 12 + 4] = -1.0f;
+			quad_data[i * 12 + 5] = -2.0f;
+			quad_data[i * 12 + 6] =  1.0f;
+			quad_data[i * 12 + 7] =  1.0f;
+			quad_data[i * 12 + 8] = -2.0f;
+			quad_data[i * 12 + 9] = -1.0f;
+			quad_data[i * 12 + 10] =  1.0f;
+			quad_data[i * 12 + 11] = -2.0f;
+		}
+		for (int i = 0; i < size; i++)
+		{
+			quad_data[i * 8 + 0 + size * 12] = 0.0f;
+			quad_data[i * 8 + 1 + size * 12] = 1.0f;
+			quad_data[i * 8 + 2 + size * 12] = 1.0f;
+			quad_data[i * 8 + 3 + size * 12] = 1.0f;
+			quad_data[i * 8 + 4 + size * 12] = 1.0f;
+			quad_data[i * 8 + 5 + size * 12] = 0.0f;
+			quad_data[i * 8 + 6 + size * 12] = 0.0f;
+			quad_data[i * 8 + 7 + size * 12] = 0.0f;
+		}
 
 		glGenVertexArrays(1, &ScreenVao);
 		glBindVertexArray(ScreenVao);
 
 		glGenBuffers(1, &Buffers);
 		glBindBuffer(GL_ARRAY_BUFFER, Buffers);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(quad_data), quad_data, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, 20 * size * sizeof(GLfloat), quad_data, GL_STATIC_DRAW);
 
 		glVertexAttribPointer(0, 3, GL_FLOAT,
 			GL_FALSE, 0, (GLvoid*)0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(12 * sizeof(float)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(size * 12 * sizeof(float)));
 
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 
 		ScreenInit = true;
 
-		glm::mat4 Projection = glm::perspective(45.0f, (GLfloat)WindowsWidth / (GLfloat)WindowsHeight, 0.1f, 100.0f);
+		glm::mat4 Projection = glm::perspective(45.0f, (GLfloat)WindowsWidth / (GLfloat)WindowsHeight, 0.1f, 500.0f);
 		glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_FRUSTUM], 1, GL_TRUE, glm::value_ptr(Projection));
 	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
+	Z = -100;
+
 	X += XM;
 	Y += YM;
 	Z += ZM;
 
-	rot += 0.05f;
+	rot = 180.0f;
+	rot = 0.0f;
 
-	glm::mat4 Translate = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, -0.0f));
+	glm::mat4 Translate = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, Z));
 	glm::mat4 Rotate = glm::rotate_slow(glm::mat4(), rot,glm::vec3(0.0f, 1.0f, 0.0f));
 
 	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE], 1, GL_TRUE, glm::value_ptr(Rotate));
 	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_TRANSLATE], 1, GL_TRUE, glm::value_ptr(Translate));
 	
 	glBindVertexArray(ScreenVao);
-	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	for (int i = 0; i < 4096;i++)
+		glDrawArrays(GL_TRIANGLE_FAN, 0, size*4);
 }
