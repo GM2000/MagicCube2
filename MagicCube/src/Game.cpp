@@ -92,14 +92,15 @@ void RenderGame()
 	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	Z = -100;
+	Z = -10;
 
 	X += XM;
 	Y += YM;
 	Z += ZM;
 
-	rot = 180.0f;
-	rot = 0.0f;
+	//rot = 180.0f;
+	//rot = 0.0f;
+	rot += 0.001;
 
 	glm::mat4 Translate = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, Z));
 	glm::mat4 Rotate = glm::rotate_slow(glm::mat4(), rot,glm::vec3(0.0f, 1.0f, 0.0f));
@@ -108,6 +109,6 @@ void RenderGame()
 	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_TRANSLATE], 1, GL_TRUE, glm::value_ptr(Translate));
 	
 	glBindVertexArray(ScreenVao);
-	for (int i = 0; i < 4096;i++)
+	for (int i = 0; i < 100;i++)
 		glDrawArrays(GL_TRIANGLE_FAN, 0, size*4);
 }
