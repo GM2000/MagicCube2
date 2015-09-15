@@ -8,6 +8,12 @@
 #include <glfw/glfw3.h>
 #include <iostream>
 
+#include <ft2build.h>
+#include <freetype.h>
+#include <ftglyph.h>
+#include <ftoutln.h>
+#include <fttrigon.h>
+
 //temp data when load PNG
 typedef struct 
 {
