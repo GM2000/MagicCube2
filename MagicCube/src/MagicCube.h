@@ -1,12 +1,23 @@
 #pragma once
 
+//Uniform Location
 #define NORMAL_3D_SHADER_FRUSTUM	0
 #define NORMAL_3D_SHADER_ROTATE		1
 #define NORMAL_3D_SHADER_TRANSLATE	2
+//Block VAO's front
+#define BLOCK_VAO_UP	0
+#define BLOCK_VAO_DOWN	1
+#define BLOCK_VAO_LEFT	2
+#define BLOCK_VAO_RIGHT	3
+#define BLOCK_VAO_FRONT	4
+#define BLOCK_VAO_BACK	5
+#define BLOCK_VAO_OTHER	6
 
 #include <gl/glew.h>
 #include <glfw/glfw3.h>
+
 #include <iostream>
+#include <string.h>
 
 #include <ft2build.h>
 #include <freetype.h>

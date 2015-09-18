@@ -141,6 +141,7 @@
     <ClInclude Include="src\Location.h" />
     <ClInclude Include="src\MagicCube.h" />
     <ClInclude Include="src\Mob.h" />
+    <ClInclude Include="src\Block.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

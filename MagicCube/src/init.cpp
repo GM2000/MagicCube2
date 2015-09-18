@@ -14,8 +14,10 @@ void LoadShaders()
 		{ GL_FRAGMENT_SHADER, "Normail3D.frag" },
 		{ GL_NONE, NULL } };
 
+	//get shader programID
 	shader[0] = LoadShaders(shaders);
 
+	//get shader location
 	ShaderUniformLocation[NORMAL_3D_SHADER_FRUSTUM] = glGetUniformLocation(shader[0], "Frustum");
 	ShaderUniformLocation[NORMAL_3D_SHADER_TRANSLATE] = glGetUniformLocation(shader[0], "Translate");
 	ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE] = glGetUniformLocation(shader[0], "Rotate");
@@ -57,7 +59,7 @@ GLuint Init(int argc, char **argv)
 	//load all shaders
 	LoadShaders();
 
-
+	//register callback
 	glfwSetKeyCallback			(Window, KeyBoardCallBack);
 	glfwSetWindowSizeCallback	(Window, WindowsSizeCallBack);
 

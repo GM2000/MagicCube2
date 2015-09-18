@@ -1,5 +1,4 @@
 #include "MagicCube.h"
-#include "Location.h"
 
 //windows
 GLFWwindow	*Window;
@@ -31,19 +30,14 @@ int main(int argc,char **argv)
 
 	glGenTextures(1, &TextureID);
 	glBindTexture(GL_TEXTURE_2D, TextureID);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, test->width, test->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, test->rgba);
 	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
 	//delete pic_data
 	free(test);
-
-	//try to use Mob System
-	loc teste;
-
-	//try GetChunk and GetBlock(get int Position)
-	teste.GetChunkX();
 	
 	//use shader
 	glUseProgram(shader[0]);
