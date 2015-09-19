@@ -1,4 +1,5 @@
 #include "MagicCube.h"
+#include "Block.h"
 
 //windows
 GLFWwindow	*Window;
@@ -14,6 +15,8 @@ int WindowsWidth;
 //main
 int main(int argc,char **argv)
 {
+	block stone(1);
+
 	//init the program
 	int initState = Init(argc, argv);
 

@@ -6,7 +6,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Location.h"
-#include "Block.h"
 
 bool ScreenInit = false;
 
@@ -56,7 +55,6 @@ void RenderGame()
 			quad_data[18] = 0.0f / 32.0f;//X
 			quad_data[19] = 0.0f / 32.0f;//Y
 
-		block Stone(quad_data, quad_data, quad_data, quad_data, quad_data, quad_data, quad_data);
 
 		/*
 		GLfloat *quad_data = new GLfloat[20 * size];	
@@ -95,7 +93,7 @@ void RenderGame()
 
 		glGenBuffers(1, &Buffers);
 		glBindBuffer(GL_ARRAY_BUFFER, Buffers);
-		glBufferData(GL_ARRAY_BUFFER, 20 * Stone.GetVAOSize(BLOCK_VAO_DOWN) * sizeof(GLfloat), Stone.GetVAO(BLOCK_VAO_DOWN), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(GLfloat), NULL, GL_STATIC_DRAW);
 
 		glVertexAttribPointer(0, 3, GL_FLOAT,
 			GL_FALSE, 0, (GLvoid*)0);

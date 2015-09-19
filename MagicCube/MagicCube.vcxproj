@@ -138,6 +138,7 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ShapeGroup.h" />
     <ClInclude Include="src\Location.h" />
     <ClInclude Include="src\MagicCube.h" />
     <ClInclude Include="src\Mob.h" />

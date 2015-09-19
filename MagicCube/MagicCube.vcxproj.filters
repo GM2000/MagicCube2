@@ -47,5 +47,8 @@
     <ClInclude Include="src\Block.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\ShapeGroup.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
