@@ -15,7 +15,12 @@ int WindowsWidth;
 //main
 int main(int argc,char **argv)
 {
-	block stone(1);
+	ShapeGroup stone(1);
+	GLfloat iii[8] = { 1.0,1.0 };
+
+	stone.AddShape(iii, iii, "123");
+
+	stone.init();
 
 	//init the program
 	int initState = Init(argc, argv);
