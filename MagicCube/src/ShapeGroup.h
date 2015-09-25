@@ -3,8 +3,6 @@
 #include <list>
 #include <vector>
 
-#define sizeMalloc(p) (*(((unsigned int *)p)-1) & ~(0x01|0x02))
-
 class shape
 {
 public:
