@@ -1,142 +1,99 @@
 #pragma once
 #include "MagicCube.h"
+#include <list>
+#include <vector>
 
-#define SG_MAX_ARRAY 1000000
+#define sizeMalloc(p) (*(((unsigned int *)p)-1) & ~(0x01|0x02))
+
+class shape
+{
+public:
+	GLfloat		VAO_Data		[12];
+	GLfloat		TexturePos_Data	[8 ];
+
+	shape(GLfloat* VAOData,GLfloat* TexturePosData)
+	{
+		memcpy(VAO_Data			, VAOData		, 12 * sizeof(GLfloat));
+		memcpy(TexturePos_Data	, TexturePosData, 8  * sizeof(GLfloat));
+	}
+};
 
 //ShapeGroup
-class ShapeGroup
+class shapeGroup
 {
 private:
 	//save size and data
-	class _Array
+	class _shape
 	{
 	public:
-		GLfloat *SG_Data;
-
-		int		SG_DataSize;
-
-		//set the size and clear data
-		void inline SetSize(int Size)
+		_shape(const char* InitShapeName, shape* InitShape)
 		{
-			if (Size == 0)
-			{
-				SG_Data = NULL;
-				SG_DataSize = 0;
-			}
-			else
-			{
-				SG_Data = new GLfloat[Size];
-				SG_DataSize = Size;
-			}
+			ShapeName	 = InitShapeName;
+			Shape		 = InitShape;
 		}
-		//make the size bigger
-		void inline ExpandSize(unsigned int Size)
-		{
-			GLfloat *SG_Tmp = SG_Data;
-
-			//resize
-			SG_Data = new GLfloat[SG_DataSize + Size];
-			//copy data
-			memcpy(SG_Data, SG_Tmp, SG_DataSize * sizeof(GLfloat));
-			//save size
-			SG_DataSize += Size;
-
-			//delete TMP data
-			delete(SG_Tmp);
-		}
-		//make the size smaller
-		void inline NarrowSize(unsigned int Size)
-		{
-			GLfloat *SG_Tmp = SG_Data;
-
-			//resize
-			SG_Data = new GLfloat[SG_DataSize - Size];
-			//copy data
-			memcpy(SG_Data, SG_Tmp, (SG_DataSize - Size) * sizeof(GLfloat));
-			//save size
-			SG_DataSize -= Size;
-
-			//delete TMP data
-			delete(SG_Tmp);
-		}
+		shape*		Shape;
+		const char*	ShapeName;
 	};
-	GLfloat	*SG_TmpVaoData		= new GLfloat	[SG_MAX_ARRAY * 3];
-	GLfloat	*SG_TmpTextureData	= new GLfloat	[SG_MAX_ARRAY * 2];
+	typedef std::list<_shape> ShapeList;
 
-	char**	SG_ShapeName		= new char*		[SG_MAX_ARRAY	 ];
+	ShapeList			SG_ShapeData;
 
-	int		SG_ShapeNumber;
+	int					SG_ShapeNumber;
 
-	bool	HasInit;
 public:
-	//array
-	_Array	SG_VaoData;
-	_Array	SG_TextureData;
-
-	//unload ShaoeGroup
-	~ShapeGroup()
+	void AddShape(shape* Shape,const char* ShapeName)
 	{
-		//delete
-		delete(SG_VaoData.SG_Data);
-		delete(SG_TextureData.SG_Data);
+		//make a TMP shape
+		_shape SG_Shape(ShapeName, Shape);
+		//add data
+		SG_ShapeData.push_back(SG_Shape);
 	}
-	//load ShapeGroup
-	ShapeGroup(unsigned int Type)
+	void RemoveShape(const char* ShapeName)
 	{
-		SG_ShapeNumber	= 0;
-		HasInit			= false;
-	}
-	//init
-	void inline init()
-	{
-		//malloc
-		SG_VaoData		.SetSize(SG_ShapeNumber * 12);
-		SG_TextureData	.SetSize(SG_ShapeNumber * 8);
+		//use iterator to get the data
+		ShapeList::iterator	SG_ShapeData_Iterator;
 
-		//copy memory
-		memcpy(SG_VaoData.SG_Data		, SG_TmpVaoData		, SG_VaoData	.SG_DataSize * sizeof(GLfloat));
-		memcpy(SG_TextureData.SG_Data	, SG_TmpTextureData	, SG_TextureData.SG_DataSize * sizeof(GLfloat));
-
-		//delete
-		delete(SG_TmpVaoData	);
-		delete(SG_TmpTextureData);
-
-		HasInit = true;
-	}
-	//set SG data
-	void inline AddShape(GLfloat VAOData[12], GLfloat TexturePosition[8],const char* ShapeName)
-	{
-		if (HasInit)
+		for (SG_ShapeData_Iterator = SG_ShapeData.begin(); SG_ShapeData_Iterator != SG_ShapeData.end();)
 		{
-			//expand memory
-			SG_VaoData		.ExpandSize(SG_ShapeNumber * 12);
-			SG_TextureData	.ExpandSize(SG_ShapeNumber * 8 );
-
-			//copy memory
-			memcpy(&SG_VaoData		.SG_Data[SG_ShapeNumber * 12], VAOData			, 12	* sizeof(GLfloat));
-			memcpy(&SG_TextureData	.SG_Data[SG_ShapeNumber * 8	], TexturePosition	, 8		* sizeof(GLfloat));
-
-			//set shapename
-			SG_ShapeName[SG_ShapeNumber] = (char*)ShapeName;
-
-			//add shape number
-			SG_ShapeNumber++;
-
-			std::cout << "Load Shape after init Call:"<<SG_ShapeName[SG_ShapeNumber - 1] << std::endl;
+			if (SG_ShapeData_Iterator->ShapeName == ShapeName)
+			{
+				//delete iterator
+				SG_ShapeData.erase(SG_ShapeData_Iterator);
+				//break the loop and it will save the memoty and it can be safty
+				break;
+			}
+			else 
+			{
+				SG_ShapeData_Iterator++;
+			}
 		}
-		else 
+	}
+	GLfloat* GetTotalData()
+	{
+		ShapeList::iterator	SG_ShapeData_Iterator;
+
+		//Tmp Vector data
+		std::vector<GLfloat*>	TexturePos;
+		std::vector<GLfloat*>	VAOData;
+
+		unsigned int	ItemSize = 0;;
+
+		for (SG_ShapeData_Iterator = SG_ShapeData.begin(); SG_ShapeData_Iterator != SG_ShapeData.end(); SG_ShapeData_Iterator++)
 		{
-			//copy memory
-			memcpy(&SG_TmpVaoData		[SG_ShapeNumber * 12]	, VAOData			, 12	* sizeof(GLfloat));
-			memcpy(&SG_TmpTextureData	[SG_ShapeNumber * 8	]	, TexturePosition	, 8		* sizeof(GLfloat));
+			VAOData		.push_back(SG_ShapeData_Iterator->Shape->VAO_Data);
+			TexturePos	.push_back(SG_ShapeData_Iterator->Shape->TexturePos_Data);
 
-			//set shapename
-			SG_ShapeName[SG_ShapeNumber] = (char*)ShapeName;
-
-			//add shape number
-			SG_ShapeNumber ++;
-
-			std::cout << "Load Shape before init Call:" << SG_ShapeName[SG_ShapeNumber - 1] << std::endl;
+			ItemSize += 20;
 		}
+		VAOData.insert(VAOData.begin(), TexturePos.begin(), TexturePos.end());
+
+		GLfloat*	TotalData = (GLfloat*)malloc(sizeof(GLfloat) * ItemSize);
+
+		for (int i = 0; i < ItemSize; i++)
+		{
+			TotalData[i] = *VAOData[i];
+		}
+		
+		return TotalData;
 	}
 };

@@ -13,22 +13,5 @@
 /*Block*/
 class block
 {
-private:
-	//save Block Vao
-	ShapeGroup* RenderData;
-	//Block basic data
-public:
-	//init Block
-	block(int i)
-	{
-		ShapeGroup hehe(i);
-	}
-	void AddShape(int X1,int X2,int Y1,int Y2,int Z1,int Z2)
-	{
-		
-	}
-	ShapeGroup GetBlockRenderData()
-	{
 
-	}
 };

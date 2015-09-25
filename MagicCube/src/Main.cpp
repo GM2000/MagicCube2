@@ -15,24 +15,17 @@ int WindowsWidth;
 //main
 int main(int argc,char **argv)
 {
-	ShapeGroup stone(1);
-	GLfloat iii[8] = { 1.0,2.0,9.9,12.3,12.2,871.1,283.1,92873.1 };
-	GLfloat ii1i[12] = { 1.1230,3212.0312,9.229,312.332,1322.2,83271.1,2383.1,973.1 };
+	GLfloat i2[10]={ 1.0,0.0,0.0,2.0,0.0,3.0,4.0,5.0,6.0 };
 
-	stone.AddShape(iii, ii1i, "123");
+	shape SH(i2, i2);
 
-	stone.init();
+	shapeGroup stone;
 
-	for (int i = 0; i < stone.SG_TextureData.SG_DataSize; i++)
-	{
-		std::cout << stone.SG_TextureData.SG_Data[i] << std::endl;
-	}
-	stone.AddShape(iii, iii, "111");
+	stone.AddShape(&SH, "ABC");
+	stone.AddShape(&SH, "ABC");
+	//stone.RemoveShape("ABC");
+	stone.GetTotalData();
 
-	for (int i = 0; i < stone.SG_TextureData.SG_DataSize; i++)
-	{
-		std::cout << stone.SG_TextureData.SG_Data[i] << std::endl;
-	}
 	//init the program
 	int initState = Init(argc, argv);
 
