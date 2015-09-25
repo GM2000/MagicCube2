@@ -6,6 +6,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Location.h"
+#include "ShapeGroup.h"
+
+extern shapeGroup stone;
 
 bool ScreenInit = false;
 
@@ -93,11 +96,11 @@ void RenderGame()
 
 		glGenBuffers(1, &Buffers);
 		glBindBuffer(GL_ARRAY_BUFFER, Buffers);
-		glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(GLfloat), NULL, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(GLfloat), stone.GetTotalData(), GL_STATIC_DRAW);
 
 		glVertexAttribPointer(0, 3, GL_FLOAT,
 			GL_FALSE, 0, (GLvoid*)0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(size * 12 * sizeof(float)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(stone.ShapeNumber() * 12 * sizeof(GLfloat)));
 
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);

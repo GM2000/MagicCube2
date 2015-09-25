@@ -34,13 +34,22 @@ private:
 	};
 	typedef std::list<_shape> ShapeList;
 
+	GLfloat*			TotalData;
+
 	ShapeList			SG_ShapeData;
 
 	int					SG_ShapeNumber;
 
+	bool				HasChange;
+
 public:
+	int	 ShapeNumber()
+	{
+		return SG_ShapeData.size();
+	}
 	void AddShape(shape* Shape,const char* ShapeName)
 	{
+		HasChange = true;
 		//make a TMP shape
 		_shape SG_Shape(ShapeName, Shape);
 		//add data
@@ -48,6 +57,7 @@ public:
 	}
 	void RemoveShape(const char* ShapeName)
 	{
+		HasChange = true;
 		//use iterator to get the data
 		ShapeList::iterator	SG_ShapeData_Iterator;
 
@@ -68,30 +78,39 @@ public:
 	}
 	GLfloat* GetTotalData()
 	{
-		ShapeList::iterator	SG_ShapeData_Iterator;
-
-		//Tmp Vector data
-		std::vector<GLfloat*>	TexturePos;
-		std::vector<GLfloat*>	VAOData;
-
-		unsigned int	ItemSize = 0;;
-
-		for (SG_ShapeData_Iterator = SG_ShapeData.begin(); SG_ShapeData_Iterator != SG_ShapeData.end(); SG_ShapeData_Iterator++)
+		if (HasChange)
 		{
-			VAOData		.push_back(SG_ShapeData_Iterator->Shape->VAO_Data);
-			TexturePos	.push_back(SG_ShapeData_Iterator->Shape->TexturePos_Data);
+			HasChange = false;
 
-			ItemSize += 20;
+			ShapeList::iterator	SG_ShapeData_Iterator;
+
+			const int	VAOSize = SG_ShapeData.size() * 12;
+			const int	ItemSize = SG_ShapeData.size() * 20;
+
+			GLfloat** TmpTotalData;
+
+			TmpTotalData = (GLfloat**)malloc(sizeof(GLfloat) * ItemSize);
+
+			int LoopShapeNumber = 0;
+
+			//start to loop
+			for (SG_ShapeData_Iterator = SG_ShapeData.begin(); SG_ShapeData_Iterator != SG_ShapeData.end(); SG_ShapeData_Iterator++)
+			{
+				//VAO
+				for (int i = 0; i < 12; i++)
+				{
+					TmpTotalData[LoopShapeNumber * 12 + i] = &SG_ShapeData_Iterator->Shape->VAO_Data[i];
+				}
+				//TexturePos
+				for (int i = 0; i < 8; i++)
+				{
+					TmpTotalData[VAOSize + LoopShapeNumber * 8 + i] = &SG_ShapeData_Iterator->Shape->TexturePos_Data[i];
+				}
+
+				LoopShapeNumber++;
+			}
+			TotalData = *TmpTotalData;
 		}
-		VAOData.insert(VAOData.begin(), TexturePos.begin(), TexturePos.end());
-
-		GLfloat*	TotalData = (GLfloat*)malloc(sizeof(GLfloat) * ItemSize);
-
-		for (int i = 0; i < ItemSize; i++)
-		{
-			TotalData[i] = *VAOData[i];
-		}
-		
 		return TotalData;
 	}
 };

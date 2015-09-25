@@ -1,6 +1,8 @@
 #include "MagicCube.h"
 #include "Block.h"
 
+shapeGroup stone;
+
 //windows
 GLFWwindow	*Window;
 
@@ -15,16 +17,23 @@ int WindowsWidth;
 //main
 int main(int argc,char **argv)
 {
-	GLfloat i2[10]={ 1.0,0.0,0.0,2.0,0.0,3.0,4.0,5.0,6.0 };
+	GLfloat vaod[12] = {	-1.0,-1.0, 0.0,
+							1.0,-1.0, 0.0,
+							1.0, 1.0, 0.0,
+							-1.0, 1.0, 0.0 };
 
-	shape SH(i2, i2);
+	GLfloat texpd[8] = { 0.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f };
 
-	shapeGroup stone;
+	shape SH(vaod, texpd);
 
-	stone.AddShape(&SH, "ABC");
-	stone.AddShape(&SH, "ABC");
+	for (int i = 0; i < 1; i++)
+	{
+		stone.AddShape(&SH, (const char*)i);
+	}
+	stone.RemoveShape((const char*)4988);
 	//stone.RemoveShape("ABC");
-	stone.GetTotalData();
+	GLfloat *i3 = stone.GetTotalData();
+	GLfloat *i4 = stone.GetTotalData();
 
 	//init the program
 	int initState = Init(argc, argv);
