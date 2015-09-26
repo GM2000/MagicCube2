@@ -1,7 +1,16 @@
 #include "MagicCube.h"
 #include "Block.h"
 
+//ShapeGroup test
 shapeGroup stone;
+
+//Render
+void Render();
+
+//FPS
+double	LastRenderTime = glfwGetTime();
+double	FPS;
+int		RenderTime = 0;
 
 //windows
 GLFWwindow	*Window;
@@ -25,18 +34,15 @@ int main(int argc,char **argv)
 	GLfloat texpd[8] = { 0.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f };
 
 	shape SH(vaod, texpd);
-
 	//stone.AddShape(&SH, (const char*)1,0,0,-1);
 
-	for (int i = -8; i < 8; i++)
+	for (int i = -20; i < 20; i++)
 	{
-		for (int j = -8; j < 8; j++)
+		for (int j = -20; j < 20; j++)
 		{
-			stone.AddShape(&SH, (const char*)(i * 16 + j), i*2, j*2, -10);
+			stone.AddShape(&SH, (const char*)((i * 32 + j) + 1000000), i*2, j*2, -15);
 		}
 	}
-	GLfloat *i3 = stone.GetTotalData();
-	GLfloat *i4 = stone.GetTotalData();
 
 	//init the program
 	int initState = Init(argc, argv);
@@ -69,14 +75,27 @@ int main(int argc,char **argv)
 	//maim loop
 	while (!glfwWindowShouldClose(Window))
 	{
+		//FPS
+		RenderTime++;
+
 		//refresh screen
 		glfwSwapBuffers(Window);
 
 		//draw screen
-		RenderGame();
+		Render();
 
 		//pass the message
 		glfwPollEvents();
+
+		//FPS
+		double FinishTime = glfwGetTime();
+		if (FinishTime - LastRenderTime > 0.25)
+		{
+			FPS = (double)RenderTime / (FinishTime - LastRenderTime);
+			std::cout << FPS << std::endl;
+			RenderTime = 0;
+			LastRenderTime = FinishTime;
+		}
 	}
 	//exit
 	glfwTerminate();

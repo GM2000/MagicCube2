@@ -68,7 +68,3 @@ GLuint		LoadShaders	(shaderInfo*);
 extern	int WindowsHeight;
 extern	int WindowsWidth;
 
-
-//render game
-void RenderGame();
-
