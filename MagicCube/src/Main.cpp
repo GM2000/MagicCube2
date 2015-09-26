@@ -26,11 +26,16 @@ int main(int argc,char **argv)
 
 	shape SH(vaod, texpd);
 
-	for (int i = 0; i < 1; i++)
+	//stone.AddShape(&SH, (const char*)1,0,0,-1);
+
+	for (int i = -1000; i < 1000; i++)
 	{
-		stone.AddShape(&SH, (const char*)i);
+		for (int j = -1000; j < 1000; j++)
+		{
+			stone.AddShape(&SH, (const char*)(i * 4000000 + j), i, j, -10);
+		}
 	}
-	stone.RemoveShape((const char*)4988);
+
 	//stone.RemoveShape("ABC");
 	GLfloat *i3 = stone.GetTotalData();
 	GLfloat *i4 = stone.GetTotalData();

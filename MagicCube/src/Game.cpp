@@ -96,7 +96,7 @@ void RenderGame()
 
 		glGenBuffers(1, &Buffers);
 		glBindBuffer(GL_ARRAY_BUFFER, Buffers);
-		glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(GLfloat), stone.GetTotalData(), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, stone.ShapeNumber() * 20 * sizeof(GLfloat), stone.GetTotalData(), GL_STATIC_DRAW);
 
 		glVertexAttribPointer(0, 3, GL_FLOAT,
 			GL_FALSE, 0, (GLvoid*)0);
@@ -130,6 +130,6 @@ void RenderGame()
 	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_TRANSLATE], 1, GL_TRUE, glm::value_ptr(Translate));
 	
 	glBindVertexArray(ScreenVao);
-	for (int i = 0; i < 1;i++)
-		glDrawArrays(GL_TRIANGLE_FAN, 0, size*4);
+
+	glDrawArrays(GL_QUADS, 0, stone.ShapeNumber() * 4);
 }
