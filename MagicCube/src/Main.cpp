@@ -32,11 +32,11 @@ int main(int argc,char **argv)
 	{
 		for (int j = -1000; j < 1000; j++)
 		{
-			stone.AddShape(&SH, (const char*)(i * 4000000 + j), i, j, -10);
+			stone.AddShape(&SH, (const char*)(i * 2000 + j), i, j, -10);
 		}
 	}
 
-	//stone.RemoveShape("ABC");
+	stone.RemoveShape((const char*)100000);
 	GLfloat *i3 = stone.GetTotalData();
 	GLfloat *i4 = stone.GetTotalData();
 
