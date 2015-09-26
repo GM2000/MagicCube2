@@ -83,5 +83,5 @@ void WindowsSizeCallBack(GLFWwindow* window, int width, int height)
 	WindowsHeight = height;
 	WindowsWidth = width;
 
-	glViewport(0.0, 0.0, width, height);
+	glViewport(0, 0, width, height);
 }
