@@ -133,7 +133,7 @@
   <ItemGroup>
     <ClCompile Include="src\A2U.cpp" />
     <ClCompile Include="src\init.cpp" />
-    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\CallBack.cpp" />
     <ClCompile Include="src\LoadResources.cpp" />
     <ClCompile Include="src\Main.cpp" />

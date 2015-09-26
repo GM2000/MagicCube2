@@ -28,15 +28,13 @@ int main(int argc,char **argv)
 
 	//stone.AddShape(&SH, (const char*)1,0,0,-1);
 
-	for (int i = -1000; i < 1000; i++)
+	for (int i = -8; i < 8; i++)
 	{
-		for (int j = -1000; j < 1000; j++)
+		for (int j = -8; j < 8; j++)
 		{
-			stone.AddShape(&SH, (const char*)(i * 2000 + j), i, j, -10);
+			stone.AddShape(&SH, (const char*)(i * 16 + j), i*2, j*2, -10);
 		}
 	}
-
-	stone.RemoveShape((const char*)100000);
 	GLfloat *i3 = stone.GetTotalData();
 	GLfloat *i4 = stone.GetTotalData();
 

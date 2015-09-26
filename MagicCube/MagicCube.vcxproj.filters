@@ -24,13 +24,13 @@
     <ClCompile Include="src\init.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\LoadResources.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\CallBack.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

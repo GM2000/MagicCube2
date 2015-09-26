@@ -12,6 +12,10 @@ extern shapeGroup stone;
 
 bool ScreenInit = false;
 
+double	LastRenderTime = glfwGetTime();
+int		FPS;
+int		RenderTime = 0;
+
 GLuint ScreenVao;
 GLuint Buffers;
 
@@ -30,6 +34,8 @@ loc teste;
 
 void RenderGame()
 {
+	RenderTime++;
+
 	int size = 1;
 
 	if (!ScreenInit) 
@@ -132,4 +138,13 @@ void RenderGame()
 	glBindVertexArray(ScreenVao);
 
 	glDrawArrays(GL_QUADS, 0, stone.ShapeNumber() * 4);
+
+	double FinishTime = glfwGetTime();
+	if (FinishTime - LastRenderTime > 0.25)
+	{
+		FPS = RenderTime / (FinishTime - LastRenderTime);
+		std::cout << FPS << std::endl;
+		RenderTime = 0;
+		LastRenderTime = FinishTime;
+	}
 }
