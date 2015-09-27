@@ -47,27 +47,28 @@ private:
 	GLuint			SG_VAO;
 	GLuint			SG_Buffer;
 	//save data
-	GLfloat*		TotalData;
+	GLfloat*		TmpTotalData;
 	ShapeList		SG_ShapeData;
 	int				SG_ShapeNumber;
 	bool			HasChange;
 
-	GLfloat *GetTotalData();
-
-	void	RefreshBuffer();
+	void			GetTotalData();
 public:
+	//only can add one shape
 	void inline AddShape(shape Shape, const char* ShapeName, float X, float Y, float Z)
 	{
 		HasChange = true;
+		//only can add one shape
 		//make a TMP shape
 		_shape SG_Shape(ShapeName, Shape, X, Y, Z);
 		//add data
 		SG_ShapeData.push_back(SG_Shape);
 	}
+	//can add more than one shape
 	void inline AddShapes(shape* Shape, const char* ShapeName, float X, float Y, float Z, int ShapeNumber)
 	{
 		HasChange = true;
-
+		//loop to add more than one shape
 		for (int i = 0; i < ShapeNumber; i++)
 		{
 			//make a TMP shape
@@ -76,6 +77,7 @@ public:
 			SG_ShapeData.push_back(SG_Shape);
 		}
 	}
+	//can remove the shape that have the same name
 	void inline RemoveShapes(const char* ShapeName)
 	{
 		HasChange = true;
@@ -95,15 +97,16 @@ public:
 			}
 		}
 	}
-
+	//render the shapegroup and auto refresh
 	void RenderShapeGroup()
 	{
 		if (HasChange)
 		{
-			//refresh Buffer Data
 			RefreshBuffer();
 		}
 		glBindVertexArray(SG_VAO);
 		glDrawArrays(GL_QUADS, 0, SG_ShapeData.size() * 4);
 	}
+	//refresh shapegroup
+	void RefreshBuffer();
 };
