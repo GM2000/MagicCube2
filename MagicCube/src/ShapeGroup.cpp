@@ -1,12 +1,8 @@
 
 #include "ShapeGroup.h"
-#include <thread>
 
 void shapeGroup::RefreshBuffer()
 {
-	std::thread GetTotalDataThread(&shapeGroup::GetTotalData,this);
-	GetTotalDataThread.detach();
-
 	glGenVertexArrays(1, &SG_VAO);
 	glBindVertexArray(SG_VAO);
 
@@ -22,6 +18,8 @@ void shapeGroup::RefreshBuffer()
 	glEnableVertexAttribArray(1);
 
 	free(TmpTotalData);
+
+	SG_State = SG_FINISH;
 }
 
 void shapeGroup::GetTotalData()
@@ -61,5 +59,5 @@ void shapeGroup::GetTotalData()
 		}
 		LoopShapeNumber++;
 	}
-	HasChange = false;
+	SG_State = SG_NEEDREFRESHBUFFER;
 }

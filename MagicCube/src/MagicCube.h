@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include <string.h>
+#include <thread>
 
 #include <ft2build.h>
 #include <freetype.h>
