@@ -25,17 +25,18 @@ private:
 	class _shape
 	{
 	public:
-		_shape(const char* InitShapeName, shape* InitShape,float X,float Y,float Z)
+		_shape(const char* InitShapeName, shape InitShape,float X,float Y,float Z)
 		{
 			//save the shape data
-			ShapeName	 = InitShapeName;
-			Shape		 = InitShape;
+			Shape		= (shape*)malloc(sizeof(shape));
+			*Shape		= InitShape;
+			ShapeName	= InitShapeName;
 
 			Location[0] = X;
 			Location[1] = Y;
 			Location[2] = Z;
 		}
-		float			Location[3];
+		float		Location[3];
 		shape*		Shape;
 		const char*	ShapeName;
 	};
@@ -54,13 +55,25 @@ public:
 	{
 		return SG_ShapeData.size();
 	}
-	void AddShape(shape* Shape,const char* ShapeName, float X, float Y, float Z)
+	void AddShape(shape Shape, const char* ShapeName, float X, float Y, float Z)
 	{
 		HasChange = true;
 		//make a TMP shape
-		_shape SG_Shape(ShapeName, Shape,X,Y,Z);
+		_shape SG_Shape(ShapeName, Shape, X, Y, Z);
 		//add data
 		SG_ShapeData.push_back(SG_Shape);
+	}
+	void AddShapes(shape* Shape, const char* ShapeName, float X, float Y, float Z, int ShapeNumber)
+	{
+		HasChange = true;
+
+		for (int i = 0; i < ShapeNumber; i++)
+		{
+			//make a TMP shape
+			_shape SG_Shape(ShapeName, Shape[i], X, Y, Z);
+			//add data
+			SG_ShapeData.push_back(SG_Shape);
+		}
 	}
 	void RemoveShape(const char* ShapeName)
 	{
@@ -74,8 +87,6 @@ public:
 			{
 				//delete iterator
 				SG_ShapeData.erase(SG_ShapeData_Iterator);
-				//break the loop and it will save the memoty and it can be safty
-				return;
 			}
 			else 
 			{

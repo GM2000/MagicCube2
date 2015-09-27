@@ -26,23 +26,25 @@ int WindowsWidth;
 //main
 int main(int argc,char **argv)
 {
-	GLfloat vaod[12] = {	-1.0,-1.0, 0.0,
-							1.0,-1.0, 0.0,
-							1.0, 1.0, 0.0,
-							-1.0, 1.0, 0.0 };
+	GLfloat vaod[12] = { -1.0,-1.0, 0.0,
+		1.0,-1.0, 0.0,
+		1.0, 1.0, 0.0,
+		-1.0, 1.0, 0.0 };
 
 	GLfloat texpd[8] = { 0.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f };
 
-	shape SH(vaod, texpd);
-	//stone.AddShape(&SH, (const char*)1,0,0,-1);
+	GLfloat vaod2[12] = { -1.0,-1.0, -5.0,
+		1.0,-1.0, -5.0,
+		1.0, 1.0, -5.0,
+		-1.0, 1.0, -5.0 };
 
-	for (int i = -20; i < 20; i++)
-	{
-		for (int j = -20; j < 20; j++)
-		{
-			stone.AddShape(&SH, (const char*)((i * 32 + j) + 1000000), i*2, j*2, -15);
-		}
-	}
+	GLfloat texpd2[8] = { 0.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f };
+
+	shape SH(vaod, texpd);
+	shape SH2(vaod2, texpd2);
+	shape SH3[2] = { SH,SH2 };
+
+	stone.AddShapes(SH3, (const char*)1,0,0,-1,2);
 
 	//init the program
 	int initState = Init(argc, argv);
