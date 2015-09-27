@@ -45,10 +45,10 @@ void KeyBoardCallBack(GLFWwindow* window, int key, int scancode, int action, int
 		case GLFW_KEY_1:
 			NowAddShapeNumber++;
 			stone.AddShape(SH3, (const char*)(NowAddShapeNumber), 0, NowAddShapeNumber * 2 - 10, -10);
-			ScreenInit = false;
+			//ScreenInit = false;
 			break;
 		case GLFW_KEY_2:
-			stone.RemoveShape((const char*)NowAddShapeNumber);
+			stone.RemoveShapes((const char*)NowAddShapeNumber);
 			ScreenInit = false;
 			NowAddShapeNumber--;
 			break;

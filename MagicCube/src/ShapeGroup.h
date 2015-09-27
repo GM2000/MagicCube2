@@ -36,26 +36,27 @@ private:
 			Location[1] = Y;
 			Location[2] = Z;
 		}
-		float		Location[3];
 		shape*		Shape;
+
+		float		Location[3];
 		const char*	ShapeName;
 	};
 	typedef std::list<_shape> ShapeList;
 
-	GLfloat*			TotalData;
+	//for opengl
+	GLuint			SG_VAO;
+	GLuint			SG_Buffer;
+	//save data
+	GLfloat*		TotalData;
+	ShapeList		SG_ShapeData;
+	int				SG_ShapeNumber;
+	bool			HasChange;
 
-	ShapeList			SG_ShapeData;
+	GLfloat *GetTotalData();
 
-	int					SG_ShapeNumber;
-
-	bool				HasChange;
-
+	void	RefreshBuffer();
 public:
-	int	 ShapeNumber()
-	{
-		return SG_ShapeData.size();
-	}
-	void AddShape(shape Shape, const char* ShapeName, float X, float Y, float Z)
+	void inline AddShape(shape Shape, const char* ShapeName, float X, float Y, float Z)
 	{
 		HasChange = true;
 		//make a TMP shape
@@ -63,7 +64,7 @@ public:
 		//add data
 		SG_ShapeData.push_back(SG_Shape);
 	}
-	void AddShapes(shape* Shape, const char* ShapeName, float X, float Y, float Z, int ShapeNumber)
+	void inline AddShapes(shape* Shape, const char* ShapeName, float X, float Y, float Z, int ShapeNumber)
 	{
 		HasChange = true;
 
@@ -75,7 +76,7 @@ public:
 			SG_ShapeData.push_back(SG_Shape);
 		}
 	}
-	void RemoveShape(const char* ShapeName)
+	void inline RemoveShapes(const char* ShapeName)
 	{
 		HasChange = true;
 		//use iterator to get the data
@@ -86,60 +87,23 @@ public:
 			if (SG_ShapeData_Iterator->ShapeName == ShapeName)
 			{
 				//delete iterator
-				SG_ShapeData.erase(SG_ShapeData_Iterator);
+				SG_ShapeData.erase(SG_ShapeData_Iterator++);
 			}
 			else 
 			{
 				SG_ShapeData_Iterator++;
 			}
 		}
-		std::cout << "[Warning]Could Not Find The Shape" << std::endl;
 	}
-	GLfloat* GetTotalData()
+
+	void RenderShapeGroup()
 	{
 		if (HasChange)
 		{
-			HasChange = false;
-
-			ShapeList::iterator	SG_ShapeData_Iterator;
-
-			const int	VAOSize = SG_ShapeData.size() * 12;
-			const int	ItemSize = SG_ShapeData.size() * 20;
-
-			GLfloat* TmpTotalData;
-
-			TmpTotalData = (GLfloat*)malloc(sizeof(GLfloat) * ItemSize);
-
-			int LoopShapeNumber = 0;
-
-			//start to loop
-			for (SG_ShapeData_Iterator = SG_ShapeData.begin(); SG_ShapeData_Iterator != SG_ShapeData.end(); SG_ShapeData_Iterator++)
-			{
-				//VAO
-				TmpTotalData[LoopShapeNumber * 12 + 0 ] = SG_ShapeData_Iterator->Shape->VAO_Data[0 ] + SG_ShapeData_Iterator->Location[0];
-				TmpTotalData[LoopShapeNumber * 12 + 1 ] = SG_ShapeData_Iterator->Shape->VAO_Data[1 ] + SG_ShapeData_Iterator->Location[1];
-				TmpTotalData[LoopShapeNumber * 12 + 2 ] = SG_ShapeData_Iterator->Shape->VAO_Data[2 ] + SG_ShapeData_Iterator->Location[2];
-
-				TmpTotalData[LoopShapeNumber * 12 + 3 ] = SG_ShapeData_Iterator->Shape->VAO_Data[3 ] + SG_ShapeData_Iterator->Location[0];
-				TmpTotalData[LoopShapeNumber * 12 + 4 ] = SG_ShapeData_Iterator->Shape->VAO_Data[4 ] + SG_ShapeData_Iterator->Location[1];
-				TmpTotalData[LoopShapeNumber * 12 + 5 ] = SG_ShapeData_Iterator->Shape->VAO_Data[5 ] + SG_ShapeData_Iterator->Location[2];
-
-				TmpTotalData[LoopShapeNumber * 12 + 6 ] = SG_ShapeData_Iterator->Shape->VAO_Data[6 ] + SG_ShapeData_Iterator->Location[0];
-				TmpTotalData[LoopShapeNumber * 12 + 7 ] = SG_ShapeData_Iterator->Shape->VAO_Data[7 ] + SG_ShapeData_Iterator->Location[1];
-				TmpTotalData[LoopShapeNumber * 12 + 8 ] = SG_ShapeData_Iterator->Shape->VAO_Data[8 ] + SG_ShapeData_Iterator->Location[2];
-
-				TmpTotalData[LoopShapeNumber * 12 + 9 ] = SG_ShapeData_Iterator->Shape->VAO_Data[9 ] + SG_ShapeData_Iterator->Location[0];
-				TmpTotalData[LoopShapeNumber * 12 + 10] = SG_ShapeData_Iterator->Shape->VAO_Data[10] + SG_ShapeData_Iterator->Location[1];
-				TmpTotalData[LoopShapeNumber * 12 + 11] = SG_ShapeData_Iterator->Shape->VAO_Data[11] + SG_ShapeData_Iterator->Location[2];
-				//TexturePos
-				for (int i = 0; i < 8; i++)
-				{
-					TmpTotalData[VAOSize + LoopShapeNumber * 8 + i] = SG_ShapeData_Iterator->Shape->TexturePos_Data[i];
-				}
-				LoopShapeNumber++;
-			}
-			TotalData = TmpTotalData;
+			//refresh Buffer Data
+			RefreshBuffer();
 		}
-		return TotalData;
+		glBindVertexArray(SG_VAO);
+		glDrawArrays(GL_QUADS, 0, SG_ShapeData.size() * 4);
 	}
 };

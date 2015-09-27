@@ -137,6 +137,7 @@
     <ClCompile Include="src\CallBack.cpp" />
     <ClCompile Include="src\LoadResources.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\ShapeGroup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ShapeGroup.h" />

@@ -30,24 +30,7 @@ loc teste;
 
 void RenderGame()
 {
-	if (!ScreenInit)
-	{
-		glGenVertexArrays(1, &ScreenVao);
-		glBindVertexArray(ScreenVao);
 
-		glGenBuffers(1, &Buffers);
-		glBindBuffer(GL_ARRAY_BUFFER, Buffers);
-		glBufferData(GL_ARRAY_BUFFER, stone.ShapeNumber() * 20 * sizeof(GLfloat), stone.GetTotalData(), GL_STATIC_DRAW);
-
-		glVertexAttribPointer(0, 3, GL_FLOAT,
-			GL_FALSE, 0, (GLvoid*)0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(stone.ShapeNumber() * 12 * sizeof(GLfloat)));
-
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-
-		ScreenInit = true;
-	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	Z = -2;
@@ -70,9 +53,7 @@ void RenderGame()
 	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE], 1, GL_TRUE, glm::value_ptr(Rotate));
 	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_TRANSLATE], 1, GL_TRUE, glm::value_ptr(Translate));
 
-	glBindVertexArray(ScreenVao);
-
-	glDrawArrays(GL_QUADS, 0, stone.ShapeNumber() * 4);
+	stone.RenderShapeGroup();
 }
 
 void Render()
