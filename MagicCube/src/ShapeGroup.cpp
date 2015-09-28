@@ -19,11 +19,13 @@ void shapeGroup::RefreshBuffer()
 
 	free(TmpTotalData);
 
-	SG_State = SG_FINISH;
+	SG_State = SG_NOTASK;
 }
 
-void shapeGroup::GetTotalData()
+void shapeGroup::RefteshTotalData()
 {
+	SG_State = SG_LOCK;
+
 	ShapeList::iterator	SG_ShapeData_Iterator;
 
 	const int	VAOSize = SG_ShapeData.size() * 12;

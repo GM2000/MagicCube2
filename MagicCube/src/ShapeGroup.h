@@ -3,10 +3,10 @@
 #include <list>
 #include <vector>
 
-#define SG_FINISH				1
-#define SG_NEEDREFRESHDATA		2
-#define SG_NEEDREFRESHBUFFER	3
-#define SG_WAIT					4
+#define SG_NOTASK				0
+#define SG_NEEDREFRESHDATA		1
+#define SG_NEEDREFRESHBUFFER	2
+#define SG_LOCK					3
 
 class shape
 {
@@ -54,14 +54,17 @@ private:
 	//save data
 	GLfloat*		TmpTotalData;
 	ShapeList		SG_ShapeData;
+
 	int				SG_ShapeNumber;
 	int				SG_State;
 
-	void			GetTotalData();
+	void			RefteshTotalData();
 public:
 	//only can add one shape
 	void inline AddShape(shape Shape, const char* ShapeName, float X, float Y, float Z)
 	{
+		while (SG_State == SG_LOCK);
+
 		SG_State = SG_NEEDREFRESHDATA;
 		//only can add one shape
 		//make a TMP shape
@@ -72,6 +75,8 @@ public:
 	//can add more than one shape
 	void inline AddShapes(shape* Shape, const char* ShapeName, float X, float Y, float Z, int ShapeNumber)
 	{
+		while (SG_State == SG_LOCK);
+
 		SG_State = SG_NEEDREFRESHDATA;
 		//loop to add more than one shape
 		for (int i = 0; i < ShapeNumber; i++)
@@ -85,6 +90,8 @@ public:
 	//can remove the shape that have the same name
 	void inline RemoveShapes(const char* ShapeName)
 	{
+		while (SG_State == SG_LOCK);
+
 		SG_State = SG_NEEDREFRESHDATA;
 		//use iterator to get the data
 		ShapeList::iterator	SG_ShapeData_Iterator;
@@ -107,30 +114,19 @@ public:
 	{
 		switch (SG_State)
 		{
-		case SG_FINISH:
-
-			glBindVertexArray(SG_VAO);
-			glDrawArrays(GL_QUADS, 0, SG_ShapeData.size() * 4);
-
-			break;
 		case SG_NEEDREFRESHDATA:
-			RefreshTotalData();
-
-			break;
-		case SG_WAIT:
-
+			RefreshData();
 			break;
 		case SG_NEEDREFRESHBUFFER:
 			RefreshBuffer();
-
 			break;
 		}
+		glBindVertexArray(SG_VAO);
+		glDrawArrays(GL_QUADS, 0, SG_ShapeData.size() * 4);
 	}
-	void RefreshTotalData()
+	void RefreshData()
 	{
-		SG_State = SG_WAIT;
-
-		std::thread GetTotalDataThread(&shapeGroup::GetTotalData, this);
+		std::thread GetTotalDataThread(&shapeGroup::RefteshTotalData, this);
 		GetTotalDataThread.detach();
 	}
 	//refresh shapegroup
