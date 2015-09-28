@@ -36,9 +36,9 @@ int main(int argc,char **argv)
 	shape SH(vaod, texpd);
 	//stone.AddShape(&SH, (const char*)1,0,0,-1);
 
-	for (int i = -1; i < 1; i++)
+	for (int i = -256; i < 256; i++)
 	{
-		for (int j = -1; j < 1; j++)
+		for (int j = -256; j < 256; j++)
 		{
 			stone.AddShape(SH, (const char*)((i * 32 + j) + 1000000), i*2, j*2, -15);
 		}
@@ -74,6 +74,7 @@ int main(int argc,char **argv)
 
 	//glEnable(GL_DEPTH_TEST);
 
+	stone.init();
 	//maim loop
 	while (!glfwWindowShouldClose(Window))
 	{

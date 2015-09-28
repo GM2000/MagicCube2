@@ -51,6 +51,7 @@ private:
 	//for opengl
 	GLuint			SG_VAO;
 	GLuint			SG_Buffer;
+	bool			SG_InitGL;
 	//save data
 	GLfloat*		TmpTotalData;
 	ShapeList		SG_ShapeData;
@@ -60,6 +61,19 @@ private:
 
 	void			RefteshTotalData();
 public:
+	shapeGroup()
+	{
+		SG_InitGL = false;
+	}
+	void inline init()
+	{
+		glGenVertexArrays(1, &SG_VAO);
+		glBindVertexArray(SG_VAO);
+
+		glGenBuffers(1, &SG_Buffer);
+
+		SG_InitGL = true;
+	}
 	//only can add one shape
 	void inline AddShape(shape Shape, const char* ShapeName, float X, float Y, float Z)
 	{
@@ -121,8 +135,13 @@ public:
 			RefreshBuffer();
 			break;
 		}
-		glBindVertexArray(SG_VAO);
-		glDrawArrays(GL_QUADS, 0, SG_ShapeData.size() * 4);
+		if (SG_InitGL)
+		{
+			glBindVertexArray(SG_VAO);
+			glDrawArrays(GL_QUADS, 0, SG_ShapeData.size() * 4);
+
+			//std::cout << "[Debug]" << SG_ShapeData.size() << "Shape Has been draw" << std::endl;
+		}
 	}
 	void RefreshData()
 	{

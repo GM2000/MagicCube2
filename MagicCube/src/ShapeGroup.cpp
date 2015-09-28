@@ -3,10 +3,8 @@
 
 void shapeGroup::RefreshBuffer()
 {
-	glGenVertexArrays(1, &SG_VAO);
 	glBindVertexArray(SG_VAO);
 
-	glGenBuffers(1, &SG_Buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, SG_Buffer);
 	glBufferData(GL_ARRAY_BUFFER, SG_ShapeData.size() * 20 * sizeof(GLfloat), TmpTotalData, GL_STATIC_DRAW);
 
@@ -32,6 +30,15 @@ void shapeGroup::RefteshTotalData()
 	const int	ItemSize = SG_ShapeData.size() * 20;
 
 	TmpTotalData = (GLfloat*)malloc(sizeof(GLfloat) * ItemSize);
+
+	if (TmpTotalData == nullptr)
+	{
+		std::cout << "[Warning]Can't malloc(" << sizeof(GLfloat) * ItemSize << ")" << std::endl;
+
+		SG_State = SG_NEEDREFRESHBUFFER;
+
+		return;
+	}
 
 	int LoopShapeNumber = 0;
 
