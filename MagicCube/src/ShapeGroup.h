@@ -59,7 +59,17 @@ private:
 	int				SG_ShapeNumber;
 	int				SG_State;
 
+	//refresh shapegroup
+	void			RefreshBuffer();
 	void			RefteshTotalData();
+
+	void			RefreshData()
+	{
+		SG_State = SG_LOCK;
+
+		std::thread GetTotalDataThread(&shapeGroup::RefteshTotalData, this);
+		GetTotalDataThread.detach();
+	}
 public:
 	shapeGroup()
 	{
@@ -77,8 +87,6 @@ public:
 	//only can add one shape
 	void inline AddShape(shape Shape, const char* ShapeName, float X, float Y, float Z)
 	{
-		while (SG_State == SG_LOCK);
-
 		SG_State = SG_NEEDREFRESHDATA;
 		//only can add one shape
 		//make a TMP shape
@@ -89,8 +97,6 @@ public:
 	//can add more than one shape
 	void inline AddShapes(shape* Shape, const char* ShapeName, float X, float Y, float Z, int ShapeNumber)
 	{
-		while (SG_State == SG_LOCK);
-
 		SG_State = SG_NEEDREFRESHDATA;
 		//loop to add more than one shape
 		for (int i = 0; i < ShapeNumber; i++)
@@ -104,8 +110,6 @@ public:
 	//can remove the shape that have the same name
 	void inline RemoveShapes(const char* ShapeName)
 	{
-		while (SG_State == SG_LOCK);
-
 		SG_State = SG_NEEDREFRESHDATA;
 		//use iterator to get the data
 		ShapeList::iterator	SG_ShapeData_Iterator;
@@ -139,15 +143,6 @@ public:
 		{
 			glBindVertexArray(SG_VAO);
 			glDrawArrays(GL_QUADS, 0, SG_ShapeData.size() * 4);
-
-			//std::cout << "[Debug]" << SG_ShapeData.size() << "Shape Has been draw" << std::endl;
 		}
 	}
-	void RefreshData()
-	{
-		std::thread GetTotalDataThread(&shapeGroup::RefteshTotalData, this);
-		GetTotalDataThread.detach();
-	}
-	//refresh shapegroup
-	void RefreshBuffer();
 };

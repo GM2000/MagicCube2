@@ -36,11 +36,11 @@ int main(int argc,char **argv)
 	shape SH(vaod, texpd);
 	//stone.AddShape(&SH, (const char*)1,0,0,-1);
 
-	for (int i = -256; i < 256; i++)
+	for (int i = -128; i < 128; i++)
 	{
-		for (int j = -256; j < 256; j++)
+		for (int j = -128; j < 128; j++)
 		{
-			stone.AddShape(SH, (const char*)((i * 32 + j) + 1000000), i*2, j*2, -15);
+			stone.AddShape(SH, (const char*)(((i + 128) * 256 + j + 128)), i*2, j*2, -15);
 		}
 	}
 

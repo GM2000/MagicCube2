@@ -22,15 +22,14 @@ void shapeGroup::RefreshBuffer()
 
 void shapeGroup::RefteshTotalData()
 {
-	SG_State = SG_LOCK;
-
 	ShapeList::iterator	SG_ShapeData_Iterator;
 
 	const int	VAOSize = SG_ShapeData.size() * 12;
 	const int	ItemSize = SG_ShapeData.size() * 20;
 
 	TmpTotalData = (GLfloat*)malloc(sizeof(GLfloat) * ItemSize);
-
+	
+	
 	if (TmpTotalData == nullptr)
 	{
 		std::cout << "[Warning]Can't malloc(" << sizeof(GLfloat) * ItemSize << ")" << std::endl;
@@ -39,7 +38,7 @@ void shapeGroup::RefteshTotalData()
 
 		return;
 	}
-
+	
 	int LoopShapeNumber = 0;
 
 	//start to loop

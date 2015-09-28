@@ -9,15 +9,6 @@
 #include "ShapeGroup.h"
 
 //test ShapeGroup
-GLfloat vaod[12] = { -1.0,-1.0, 0.0,
-1.0,-1.0, 0.0,
-1.0, 1.0, 0.0,
--1.0, 1.0, 0.0 };
-
-GLfloat texpd[8] = { 0.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f };
-
-shape SH(vaod, texpd);
-
 extern shapeGroup stone;
 
 int NowAddShapeNumber = 0;
@@ -43,11 +34,11 @@ loc teste;
 void RenderGame()
 {
 	rt++;
-	if (rt>60)
+	if (rt>30)
 	{
 		rt = 0;
+		stone.RemoveShapes((const char*)(NowAddShapeNumber));
 		NowAddShapeNumber++;
-		stone.AddShape(SH, (const char*)(NowAddShapeNumber), 0,  0, -NowAddShapeNumber);
 	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
