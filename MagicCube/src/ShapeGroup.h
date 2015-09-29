@@ -31,7 +31,8 @@ private:
 		_shape(const char* InitShapeName, shape InitShape,float X,float Y,float Z)
 		{
 			//save the shape data
-			Shape		= (shape*)malloc(sizeof(shape));
+			Shape = (shape*)malloc(sizeof(shape));
+
 			*Shape		= InitShape;
 			ShapeName	= InitShapeName;
 
@@ -124,7 +125,7 @@ public:
 			if (SG_ShapeData_Iterator->ShapeName == ShapeName)
 			{
 				//delete iterator
-				SG_ShapeData.erase(SG_ShapeData_Iterator++);
+				SG_ShapeData_Iterator = SG_ShapeData.erase(SG_ShapeData_Iterator);
 			}
 			else 
 			{

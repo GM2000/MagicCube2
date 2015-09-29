@@ -13,6 +13,12 @@
 #define BLOCK_VAO_BACK	5
 #define BLOCK_VAO_OTHER	6
 
+#ifdef _DEBUG
+	#define _CRTDBG_MAP_ALLOC
+	#include<stdlib.h>
+	#include<crtdbg.h>
+#endif
+
 #include <gl/glew.h>
 #include <glfw/glfw3.h>
 

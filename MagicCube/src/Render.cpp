@@ -31,14 +31,10 @@ GLfloat rot;
 //try to use Mob System
 loc teste;
 
-GLfloat vaod[12] = { -1.0,-1.0, 0.0,
-1.0,-1.0, 0.0,
-1.0, 1.0, 0.0,
--1.0, 1.0, 0.0 };
+extern GLfloat vaod[12];
+extern GLfloat texpd[8];
 
-GLfloat texpd[8] = { 0.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f };
-
-shape SH(vaod, texpd);
+extern shape SH;
 
 void RenderGame()
 {

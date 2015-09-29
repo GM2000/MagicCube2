@@ -4,6 +4,15 @@
 //ShapeGroup test
 shapeGroup stone;
 
+GLfloat vaod[12] = { -1.0,-1.0, 0.0,
+1.0,-1.0, 0.0,
+1.0, 1.0, 0.0,
+-1.0, 1.0, 0.0 };
+
+GLfloat texpd[8] = { 0.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f };
+
+shape SH(vaod, texpd);
+
 //Render
 void Render();
 
@@ -26,14 +35,9 @@ int WindowsWidth;
 //main
 int main(int argc,char **argv)
 {
-	GLfloat vaod[12] = {	-1.0,-1.0, 0.0,
-							1.0,-1.0, 0.0,
-							1.0, 1.0, 0.0,
-							-1.0, 1.0, 0.0 };
-
-	GLfloat texpd[8] = { 0.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,1.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f,0.0f / 32.0f };
-
-	shape SH(vaod, texpd);
+#ifdef _DEBUG
+	_CrtDumpMemoryLeaks();
+#endif
 	//stone.AddShape(&SH, (const char*)1,0,0,-1);
 
 	for (int i = -340; i < 340; i++)
