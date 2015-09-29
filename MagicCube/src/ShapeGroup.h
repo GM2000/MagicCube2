@@ -3,10 +3,8 @@
 #include <list>
 #include <vector>
 
-#define SG_NOTASK				0
-#define SG_NEEDREFRESHDATA		1
-#define SG_NEEDREFRESHBUFFER	2
-#define SG_LOCK					3
+#define SG_NOTASK			0
+#define SG_NEEDREFRESH		1
 
 class shape
 {
@@ -53,19 +51,23 @@ private:
 	GLuint			SG_Buffer;
 	bool			SG_InitGL;
 	//save data
-	GLfloat*		TmpTotalData;
+	GLfloat*		SG_TotalData;
 	ShapeList		SG_ShapeData;
 
 	int				SG_ShapeNumber;
-	int				SG_State;
+	int				SG_Size;
 
 	//refresh shapegroup
+	bool			SG_NeedRefreshBuffer;
+	bool			SG_Task;
+	bool			SG_IsRefreshingData;
+
 	void			RefreshBuffer();
 	void			RefteshTotalData();
 
 	void			RefreshData()
 	{
-		SG_State = SG_LOCK;
+		SG_IsRefreshingData = true;
 
 		std::thread GetTotalDataThread(&shapeGroup::RefteshTotalData, this);
 		GetTotalDataThread.detach();
@@ -73,7 +75,11 @@ private:
 public:
 	shapeGroup()
 	{
-		SG_InitGL = false;
+		SG_NeedRefreshBuffer	= false;
+		SG_IsRefreshingData		= false;
+		SG_InitGL				= false;
+
+		SG_Task					= SG_NOTASK;
 	}
 	void inline init()
 	{
@@ -87,7 +93,7 @@ public:
 	//only can add one shape
 	void inline AddShape(shape Shape, const char* ShapeName, float X, float Y, float Z)
 	{
-		SG_State = SG_NEEDREFRESHDATA;
+		SG_Task = SG_NEEDREFRESH;
 		//only can add one shape
 		//make a TMP shape
 		_shape SG_Shape(ShapeName, Shape, X, Y, Z);
@@ -97,7 +103,7 @@ public:
 	//can add more than one shape
 	void inline AddShapes(shape* Shape, const char* ShapeName, float X, float Y, float Z, int ShapeNumber)
 	{
-		SG_State = SG_NEEDREFRESHDATA;
+		SG_Task = SG_NEEDREFRESH;
 		//loop to add more than one shape
 		for (int i = 0; i < ShapeNumber; i++)
 		{
@@ -110,7 +116,6 @@ public:
 	//can remove the shape that have the same name
 	void inline RemoveShapes(const char* ShapeName)
 	{
-		SG_State = SG_NEEDREFRESHDATA;
 		//use iterator to get the data
 		ShapeList::iterator	SG_ShapeData_Iterator;
 
@@ -130,17 +135,19 @@ public:
 	//render the shapegroup and auto refresh
 	void RenderShapeGroup()
 	{
-		switch (SG_State)
-		{
-		case SG_NEEDREFRESHDATA:
-			RefreshData();
-			break;
-		case SG_NEEDREFRESHBUFFER:
-			RefreshBuffer();
-			break;
-		}
 		if (SG_InitGL)
 		{
+			if (SG_Task == SG_NEEDREFRESH)
+			{
+				if (SG_NeedRefreshBuffer)
+				{
+					RefreshBuffer();
+				}
+				else if(!SG_IsRefreshingData)
+				{
+					RefreshData();
+				}
+			}
 			glBindVertexArray(SG_VAO);
 			glDrawArrays(GL_QUADS, 0, SG_ShapeData.size() * 4);
 		}
