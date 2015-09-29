@@ -17,16 +17,16 @@ void KeyBoardCallBack(GLFWwindow* window, int key, int scancode, int action, int
 		switch (key)
 		{
 		case GLFW_KEY_W:
-			ZM = 0.01f;
+			ZM = 0.1f;
 			break;
 		case GLFW_KEY_S:
-			ZM = -0.01f;
+			ZM = -0.1f;
 			break;
 		case GLFW_KEY_A:
-			XM = 0.01f;
+			XM = 0.1f;
 			break;
 		case GLFW_KEY_D:
-			XM = -0.01f;
+			XM = -0.1f;
 			break;
 		default:
 			break;

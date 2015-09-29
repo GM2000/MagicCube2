@@ -40,15 +40,21 @@ void RenderGame()
 	//rot = 0.0f;
 	//rot += 0.05f;
 
-	glm::mat4 Translate = glm::translate(glm::mat4(), glm::vec3(teste.GetX(), teste.GetY(), teste.GetZ()));
-	glm::mat4 Rotate = glm::rotate_slow(glm::mat4(), rot, glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 Projection = glm::perspective(45.0f, (GLfloat)WindowsWidth / (GLfloat)WindowsHeight, 0.1f, 500.0f);
+	for (int i = -16; i <16; i++)
+	{
+		for (int j = -16; j < 16; j++)
+		{
+			glm::mat4 Translate = glm::translate(glm::mat4(), glm::vec3(teste.GetX() + i * 32, teste.GetY() + j * 32, teste.GetZ()));
+			glm::mat4 Rotate = glm::rotate_slow(glm::mat4(), rot, glm::vec3(0.0f, 1.0f, 0.0f));
+			glm::mat4 Projection = glm::perspective(45.0f, (GLfloat)WindowsWidth / (GLfloat)WindowsHeight, 0.1f, 500.0f);
 
-	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_FRUSTUM], 1, GL_TRUE, glm::value_ptr(Projection));
-	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE], 1, GL_TRUE, glm::value_ptr(Rotate));
-	glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_TRANSLATE], 1, GL_TRUE, glm::value_ptr(Translate));
+			glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_FRUSTUM], 1, GL_TRUE, glm::value_ptr(Projection));
+			glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_ROTATE], 1, GL_TRUE, glm::value_ptr(Rotate));
+			glUniformMatrix4fv(ShaderUniformLocation[NORMAL_3D_SHADER_TRANSLATE], 1, GL_TRUE, glm::value_ptr(Translate));
 
-	stone.RenderShapeGroup();
+			stone.RenderShapeGroup();
+		}
+	}
 }
 
 void Render()
