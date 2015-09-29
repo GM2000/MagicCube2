@@ -56,8 +56,17 @@ void KeyBoardCallBack(GLFWwindow* window, int key, int scancode, int action, int
 //WindowsResize callback
 void WindowsSizeCallBack(GLFWwindow* window, int width, int height)
 {
-	WindowsHeight = height;
-	WindowsWidth = width;
+	if ((height == 0) || (width == 0))
+	{
+		//pause
+	}
+	else 
+	{
+		//change windows size
+		WindowsHeight = height;
+		WindowsWidth = width;
 
-	glViewport(0, 0, width, height);
+		//set viewport
+		glViewport(0, 0, width, height);
+	}
 }
