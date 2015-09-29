@@ -40,11 +40,11 @@ int main(int argc,char **argv)
 #endif
 	//stone.AddShape(&SH, (const char*)1,0,0,-1);
 
-	for (int i = -340; i < 340; i++)
+	for (int i = 0; i < 16; i++)
 	{
-		for (int j = -340; j < 340; j++)
+		for (int j = 0; j < 16; j++)
 		{
-			stone.AddShape(SH, (const char*)(((i + 128) * 256 + j + 128)), i*2, j*2, -15);
+			stone.AddShape(SH, (const char*)((i * 16 + j)), i*2, j*2, -15);
 		}
 	}
 

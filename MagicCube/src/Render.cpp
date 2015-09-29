@@ -11,13 +11,6 @@
 //test ShapeGroup
 extern shapeGroup stone;
 
-int NowAddShapeNumber = 0;
-int rt = 0;
-
-
-GLuint ScreenVao;
-GLuint Buffers;
-
 GLfloat XM=0;
 GLfloat YM=0;
 GLfloat ZM=0;
@@ -31,21 +24,8 @@ GLfloat rot;
 //try to use Mob System
 loc teste;
 
-extern GLfloat vaod[12];
-extern GLfloat texpd[8];
-
-extern shape SH;
-
 void RenderGame()
 {
-	rt++;
-	if (rt>100)
-	{
-		rt = 0;
-		//stone.RemoveShapes((const char*)(NowAddShapeNumber));
-		stone.AddShape(SH, (const char*)(NowAddShapeNumber), 0, 0, -NowAddShapeNumber);
-		NowAddShapeNumber++;
-	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	Z = -2;

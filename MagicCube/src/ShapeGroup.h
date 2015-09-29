@@ -50,6 +50,7 @@ private:
 	//for opengl
 	GLuint			SG_VAO;
 	GLuint			SG_Buffer;
+
 	bool			SG_InitGL;
 	//save data
 	GLfloat*		SG_TotalData;

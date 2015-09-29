@@ -1,7 +1,6 @@
 
 #include "ShapeGroup.h"
 
-
 void shapeGroup::RefreshBuffer()
 {
 	glBindVertexArray(SG_VAO);
@@ -32,12 +31,12 @@ void shapeGroup::RefteshTotalData()
 
 	SG_Size = TMPShapeList.size();
 
-	const int	VAOSize			= SG_Size * 12;
-	const int	ItemSize		= SG_Size * 20;
+	const int	VAOSize = SG_Size * 12;
+	const int	ItemSize = SG_Size * 20;
 
 	GLfloat*	SG_TmpTotalData = (GLfloat*)malloc(sizeof(GLfloat) * ItemSize);
-	
-	
+
+
 	if (SG_TmpTotalData == nullptr)
 	{
 		std::cout << "[Warning]Can't malloc(" << sizeof(GLfloat) * ItemSize << ")" << std::endl;
@@ -73,6 +72,6 @@ void shapeGroup::RefteshTotalData()
 	}
 	SG_TotalData = SG_TmpTotalData;
 
-	SG_NeedRefreshBuffer	= true;
-	SG_IsRefreshingData		= false;
+	SG_NeedRefreshBuffer = true;
+	SG_IsRefreshingData = false;
 }
